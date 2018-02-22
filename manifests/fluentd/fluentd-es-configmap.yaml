@@ -362,8 +362,8 @@ data:
        type elasticsearch
        log_level info
        include_tag_key true
-       host elasticsearch-logging
-       port 9200
+       host "#{ENV['ELASTICSEARCH_HOST']}"
+       port "#{ENV['ELASTICSEARCH_PORT']}"
        logstash_format true
        # Set the chunk limits.
        buffer_chunk_limit 2M

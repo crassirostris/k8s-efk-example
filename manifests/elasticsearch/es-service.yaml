@@ -7,9 +7,10 @@ metadata:
     k8s-app: elasticsearch-logging
     kubernetes.io/name: "Elasticsearch"
 spec:
-  ports:
-  - port: 9200
-    protocol: TCP
-    targetPort: db
   selector:
     k8s-app: elasticsearch-logging
+  ports:
+  - port: 9200
+    name: db
+    targetPort: db
+  type: NodePort
