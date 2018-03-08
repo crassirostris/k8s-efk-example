@@ -40,6 +40,20 @@ roleRef:
   name: elasticsearch-logging
   apiGroup: ""
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: elasticsearch-data-pvc
+  namespace: kube-system
+  labels:
+    k8s-app: elasticsearch-logging
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
 # Elasticsearch deployment itself
 apiVersion: apps/v1beta2
 kind: StatefulSet
@@ -93,7 +107,8 @@ spec:
               fieldPath: metadata.namespace
       volumes:
       - name: elasticsearch-logging
-        emptyDir: {}
+        persistentVolumeClaim:
+         claimName: elasticsearch-data-pvc
       # Elasticsearch requires vm.max_map_count to be at least 262144.
       # If your OS already sets up this number to a higher value, feel free
       # to remove this init container.
